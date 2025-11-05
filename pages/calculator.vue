@@ -17,17 +17,23 @@
 				<form @submit.prevent="calculate">
 					<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
 						<!-- Field -->
-						<Field label="Diameter Kawat (mm)" icon="ruler-combined" v-model="form.wireDiameter" step="0.01"
-							placeholder="Contoh: 0.8" />
-						<Field label="Diameter Dalam (mm)" icon="circle-notch" v-model="form.innerDiameter" step="0.01"
-							placeholder="Contoh: 14" />
-						<Field label="Panjang (mm)" icon="ruler-vertical" v-model="form.length" step="0.1"
+						<Field label="Diameter Kawat (mm) *" icon="ruler-combined" v-model="form.wireDiameter"
+							step="0.01" placeholder="Contoh: 0.8" />
+						<Field label="Diameter Dalam (mm) *" icon="circle-notch" v-model="form.innerDiameter"
+							step="0.01" placeholder="Contoh: 14" />
+						<Field label="Panjang (mm) *" icon="ruler-vertical" v-model="form.length" step="0.1"
 							placeholder="Contoh: 50" />
-						<Field label="Konstanta" icon="gauge" v-model="form.constant" step="0.1"
+						<Field label="Konstanta *" icon="gauge" v-model="form.constant" step="0.1"
 							placeholder="Nilai konstanta" />
-						<Field label="Lilit / Pitch (mm)" icon="wave-square" v-model="form.pitch" step="0.1"
+						<Field label="Jarak Lilitan / Pitch (mm)" icon="wave-square" v-model="form.pitch" step="0.1"
 							placeholder="Contoh: 3.5" />
 						<Field label="Jumlah Lilitan" icon="rotate" v-model="form.coils" placeholder="Jumlah lilitan" />
+						<!-- NOTE -->
+						<div class="text-sm text-gray-500 italic mt-6 md:mt-0 md:col-span-2">
+							* Jika jumlah lilitan tidak diisi atau diisi 0, maka akan dihitung otomatis berdasarkan
+							panjang dan pitch (jika diisi). Jika pitch juga tidak diisi, maka akan diasumsikan pitch =
+							diameter kawat.
+						</div>
 					</div>
 
 					<div class="mt-8 flex justify-center">
@@ -83,26 +89,40 @@ const result = ref(null)
 
 async function calculate() {
 	const { wireDiameter, innerDiameter, length, constant } = form
-	const densitySteel = 7.85 // g/cm³
-	const densityStainless = 7.9
 
 	// approximate length of wire in mm (simplified helix)
 	const outerDiameter = innerDiameter + wireDiameter * 2
-	const meanDiameter = (outerDiameter + innerDiameter) / 2
-	const coilLength = Math.PI * meanDiameter * form.coils
-	const totalLength = coilLength + form.pitch * form.coils
-	const volume = Math.PI * (wireDiameter / 2) ** 2 * totalLength // mm³
 
-	const weightSteel = (volume * 1e-3 * densitySteel) / 1000 // g
-	const weightStainless = (volume * 1e-3 * densityStainless) / 1000 // g
+	// a. Berat Kawat per Meter
+	const volume = Math.PI * (wireDiameter / 2) ** 2 * 7.89 // mm³
 
+	// b. Panjang Kawat per Lilitan
+	//    dibulatkan keatas
+	const lengthPerCoil = Math.ceil(Math.PI * outerDiameter)
+
+	// c. Jumlah Lilitan
+	if (form.coils === 0 || !form.coils) {
+		if (!form.pitch || form.pitch === 0) {
+			form.coils = length / (2 * wireDiameter) // asumsi pitch = 8 x diameter kawat
+			form.pitch = wireDiameter
+			form.coils = Math.ceil(form.coils)
+		}
+		else if (form.pitch && form.pitch > 0) {
+			form.coils = length / form.pitch
+			//DIBULATKAN KE BAWA
+			form.coils = Math.ceil(form.coils)
+		}
+	}
+	// Rumus Utama Perhitungan
+	const totalWeight = (form.coils * lengthPerCoil) / 1000 * volume
 	const pricePerKgSteel = 90
 	const pricePerKgStainless = 180
-	console.log({ constant })
-	result.value = {
-		weight: weightSteel * 1000,
-		priceSteel: weightSteel * pricePerKgSteel * constant * 1000,
-		priceStainless: weightStainless * pricePerKgStainless * constant * 1000
+	if (totalWeight) {
+		result.value = {
+			weight: totalWeight,
+			priceSteel: Math.ceil(totalWeight * pricePerKgSteel * constant),
+			priceStainless: Math.ceil(totalWeight * pricePerKgStainless * constant)
+		}
 	}
 	await nextTick()
 	if (resultSection.value) {

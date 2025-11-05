@@ -11,7 +11,7 @@
 						Ruslie Spring
 					</h1>
 					<p class="text-xs text-gray-500 font-medium uppercase tracking-wide">
-						Tri Karya Abadi
+						Ruslie Group
 					</p>
 				</div>
 			</div>
