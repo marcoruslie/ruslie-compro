@@ -82,7 +82,7 @@ const form = reactive({
 const result = ref(null)
 
 async function calculate() {
-	const { wireDiameter, innerDiameter, length } = form
+	const { wireDiameter, innerDiameter, length, constant } = form
 	const densitySteel = 7.85 // g/cm³
 	const densityStainless = 7.9
 
@@ -96,13 +96,13 @@ async function calculate() {
 	const weightSteel = (volume * 1e-3 * densitySteel) / 1000 // g
 	const weightStainless = (volume * 1e-3 * densityStainless) / 1000 // g
 
-	const pricePerKgSteel = 18000
-	const pricePerKgStainless = 60000
-
+	const pricePerKgSteel = 90
+	const pricePerKgStainless = 180
+	console.log({ constant })
 	result.value = {
 		weight: weightSteel * 1000,
-		priceSteel: weightSteel * pricePerKgSteel * 1000,
-		priceStainless: weightStainless * pricePerKgStainless * 1000
+		priceSteel: weightSteel * pricePerKgSteel * constant * 1000,
+		priceStainless: weightStainless * pricePerKgStainless * constant * 1000
 	}
 	await nextTick()
 	if (resultSection.value) {
