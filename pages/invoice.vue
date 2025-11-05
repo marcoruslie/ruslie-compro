@@ -22,22 +22,29 @@
 		</div>
 
 		<!-- Customer -->
-		<div class="mb-8 border border-blue-200 rounded-lg p-4 relative z-10"
+		<div class="mb-8 border border-blue-200 rounded-lg p-4 relative z-10 bill-to-editable"
 			style="background-color: rgba(191, 219, 254, 0.6);">
 
 			<p class="font-semibold text-blue-900 mb-1">Bill To:</p>
-			<p class="leading-6 text-sm">
-				{{ invoice.customer.name }}<br />
-				{{ invoice.customer.address }}<br />
-				{{ invoice.customer.city }}<br />
-				HP: {{ invoice.customer.phone }}
-			</p>
+			<div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-sm">
+				<input v-model="invoice.customer.name" placeholder="Customer Name"
+					class="border rounded p-1 text-sm col-span-1 sm:col-span-2" />
+				<input v-model="invoice.customer.address" placeholder="Address Line 1"
+					class="border rounded p-1 text-sm col-span-1 sm:col-span-2" />
+				<input v-model="invoice.customer.city" placeholder="City, Zip Code"
+					class="border rounded p-1 text-sm" />
+				<div class="overflow-hidden flex items-center">
+					<span class="mr-1">No Telp :</span>
+					<input v-model="invoice.customer.phone" type="tel" placeholder="Phone Number"
+						class="border rounded p-1 text-sm flex-grow" />
+				</div>
+			</div>
 		</div>
 
 		<!-- Add Item Form -->
 		<div class="mb-6 border border-blue-100 rounded-lg p-4 bg-gray-50 no-print relative z-10">
 			<h2 class="font-semibold mb-2 text-blue-900">Add Item</h2>
-			<div class="grid grid-cols-4 gap-2">
+			<div class="grid grid-cols-2 sm:grid-cols-4 gap-2">
 				<input v-model="newItem.name" placeholder="Item name" class="col-span-2 border rounded p-2 text-sm" />
 				<input v-model.number="newItem.qty" type="number" placeholder="Qty"
 					class="border rounded p-2 text-sm" />
@@ -175,6 +182,17 @@ const printInvoice = () => window.print()
 		margin: 0;
 		padding: 0;
 		-webkit-print-color-adjust: exact;
+	}
+
+	/* NEW: Styles for inputs inside the editable Bill To section */
+	.bill-to-editable input {
+		border: none !important;
+		/* Remove the border */
+		background-color: transparent !important;
+		/* Make the background transparent */
+		padding: 0 !important;
+		margin: 0 !important;
+		/* Adjust padding for cleaner look */
 	}
 }
 </style>

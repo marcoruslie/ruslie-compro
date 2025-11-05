@@ -24,6 +24,12 @@
 						Home</NuxtLink>
 				</li>
 				<li>
+					<NuxtLink to="/invoice" class="nav-link"
+						:class="{ 'text-blue-700 font-semibold border-b-2 border-blue-700 pb-1': route.path === '/invoice' }">
+						Invoice
+					</NuxtLink>
+				</li>
+				<li>
 					<NuxtLink to="/calculator" class="nav-link"
 						:class="{ 'text-blue-700 font-semibold border-b-2 border-blue-700 pb-1': route.path === '/calculator' }">
 						Calculator</NuxtLink>
@@ -49,6 +55,12 @@
 				<ul class="flex flex-col items-center gap-4 text-gray-700 font-medium">
 					<li>
 						<NuxtLink to="/" class="hover:text-blue-700 transition" @click="mobileMenu = false">Home
+						</NuxtLink>
+					</li>
+					<li>
+						<NuxtLink to="/invoice" class="nav-link"
+							:class="{ 'text-blue-700 font-semibold border-b-2 border-blue-700 pb-1': route.path === '/invoice' }">
+							Invoice
 						</NuxtLink>
 					</li>
 					<li>
