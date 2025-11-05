@@ -1,59 +1,251 @@
 <template>
-	<div class="min-h-screen bg-gray-50 flex flex-col items-center justify-center p-6">
-		<!-- Header Section -->
-		<header class="text-center mb-10">
-			<h1 class="text-4xl font-bold" :style="{ color: primaryColor }">
-				Tri Karya Abadi
-			</h1>
-			<p class="text-gray-600 text-lg mt-2">
-				Delivering Excellence, Building Trust
-			</p>
-		</header>
+	<div class="min-h-screen bg-gray-50 flex flex-col">
+		<!-- Navbar -->
+		<Navbar />
 
-		<!-- About Section -->
-		<section class="max-w-2xl bg-white shadow-lg rounded-2xl p-8 mb-10">
-			<h2 class="text-2xl font-semibold mb-4" :style="{ color: primaryColor }">
-				About Us
-			</h2>
-			<p class="text-gray-700 leading-relaxed">
-				Tri Karya Abadi is a trusted partner in providing innovative solutions
-				and high-quality services to meet the needs of our clients. Our team is
-				dedicated to delivering excellence through professionalism, integrity,
-				and a commitment to long-term relationships.
-			</p>
-		</section>
+		<main class="pt-20">
+			<!-- Hero Section -->
+			<section id="home" class="relative w-full max-w-6xl mx-auto mb-12">
+				<Swiper :modules="[Pagination, Autoplay]" :loop="true" :autoplay="{ delay: 3500 }"
+					:pagination="{ clickable: true }" class="rounded-2xl shadow-2xl">
+					<SwiperSlide v-for="(slide, index) in slides" :key="index" class="relative">
+						<img :src="slide.image" class="w-full h-[450px] object-cover rounded-2xl" />
+						<div
+							class="absolute inset-0 bg-black/40 flex flex-col justify-center items-center text-center text-white px-4 animate-fade-in">
+							<h2 class="text-4xl font-extrabold drop-shadow-lg animate-slide-up">
+								{{ slide.title }}
+							</h2>
+							<p class="text-lg mt-2 max-w-xl animate-fade-in-delayed">
+								{{ slide.subtitle }}
+							</p>
+						</div>
+					</SwiperSlide>
+				</Swiper>
+			</section>
 
-		<!-- Services Section -->
-		<section class="max-w-4xl grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
-			<div v-for="service in services" :key="service"
-				class="bg-white shadow-md rounded-2xl p-6 text-center hover:shadow-xl transition">
-				<h3 class="text-xl font-semibold mb-3" :style="{ color: primaryColor }">
-					{{ service }}
-				</h3>
-				<p class="text-gray-600 text-sm">
-					Professional {{ service.toLowerCase() }} services tailored to your needs.
+			<!-- Services -->
+			<section id="services" class="max-w-6xl mx-auto text-center mb-16">
+				<h2 class="text-3xl font-bold mb-8 animate-slide-up" :style="{ color: primaryColor }">
+					Layanan Kami
+				</h2>
+				<p class="max-w-2xl mx-auto text-gray-600 mb-10 animate-fade-in">
+					Kami menerima pembuatan berbagai macam spring (pegas) dengan diameter kawat mulai dari
+					<strong>0.3mm hingga 40mm</strong>. Cocok untuk industri otomotif, elektronik, furniture, dan
+					kebutuhan custom.
 				</p>
-			</div>
-		</section>
+				<div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+					<div v-for="service in services" :key="service.title"
+						class="bg-white rounded-2xl shadow-md p-6 transition transform hover:scale-105 hover:shadow-2xl animate-zoom-in">
+						<img :src="service.icon" alt="" class="mx-auto w-16 h-16 mb-4" />
+						<h3 class="text-xl font-semibold mb-2" :style="{ color: primaryColor }">
+							{{ service.title }}
+						</h3>
+						<p class="text-gray-600 text-sm">{{ service.desc }}</p>
+					</div>
+				</div>
+			</section>
 
-		<!-- Contact Section -->
-		<section class="max-w-2xl bg-white shadow-lg rounded-2xl p-8 text-center">
-			<h2 class="text-2xl font-semibold mb-4" :style="{ color: primaryColor }">
-				Contact Us
-			</h2>
-			<p class="text-gray-700 mb-4">
-				Have a project in mind? We’d love to hear from you.
-			</p>
-			<a href="mailto:info@trikaryaabadi.com"
-				class="inline-block px-6 py-3 rounded-full text-white text-lg shadow-md hover:shadow-lg transition"
-				:style="{ backgroundColor: primaryColor }">
-				Get in Touch
-			</a>
-		</section>
+			<!-- Gallery -->
+			<section id="gallery" class="max-w-6xl mx-auto mb-16 relative">
+				<h2 class="text-3xl font-bold text-center mb-8 animate-slide-up" :style="{ color: primaryColor }">
+					Galeri Produksi & Contoh Produk
+				</h2>
+				<div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+					<div v-for="item in gallery" :key="item"
+						class="overflow-hidden rounded-xl shadow-md hover:scale-105 transition relative group animate-zoom-in"
+						@click="openModal(item)">
+						<img :src="item" class="object-cover w-full h-60 group-hover:scale-110 transition" />
+					</div>
+				</div>
+
+				<!-- Modal Zoom -->
+				<div v-if="selectedImage" class="fixed inset-0 bg-black/70 flex justify-center items-center z-50">
+					<div class="relative max-w-3xl">
+						<img :src="selectedImage" class="rounded-xl shadow-2xl max-h-[80vh]" />
+						<button @click="selectedImage = null"
+							class="absolute top-2 right-2 bg-white rounded-full p-2 shadow hover:scale-110 transition">
+							✕
+						</button>
+					</div>
+				</div>
+			</section>
+
+			<!-- About -->
+			<section id="about" class="max-w-4xl mx-auto bg-white shadow-xl rounded-2xl p-8 mb-16 animate-slide-up">
+
+				<h2 class="text-3xl font-semibold mb-4" :style="{ color: primaryColor }">
+					Tentang Kami
+				</h2>
+				<p class="text-gray-700 leading-relaxed">
+					Tri Karya Abadi adalah mitra terpercaya dalam penyediaan solusi pegas dan wire forming
+					untuk berbagai kebutuhan industri. Dengan peralatan modern, tim profesional, dan standar kualitas
+					yang ketat,
+					kami selalu memastikan produk sesuai dengan spesifikasi yang Anda butuhkan.
+				</p>
+			</section>
+
+			<!-- Lokasi -->
+			<section class="max-w-5xl mx-auto px-6 py-16">
+				<h2 class="text-3xl font-bold text-center text-[#033272] mb-8">Lokasi Kami</h2>
+				<iframe class="w-full h-80 rounded-xl shadow-lg"
+					src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3957.815738966079!2d112.67010927499967!3d-7.261800192744962!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2dd7fe8612b51cf5%3A0x213422d4b5a515aa!2sJl.%20Sikatan%20No.45%2C%20Manukan%20Wetan%2C%20Kec.%20Tandes%2C%20Surabaya%2C%20Jawa%20Timur%2060185!5e0!3m2!1sen!2sid!4v1758535029271!5m2!1sen!2sid"
+					allowfullscreen="" loading="lazy"></iframe>
+
+			</section>
+		</main>
+		<!-- Footer Section -->
+		<footer class="bg-[#021d47] text-white mt-16">
+			<div class="max-w-6xl mx-auto px-6 py-12 grid grid-cols-1 md:grid-cols-3 gap-8">
+				<div>
+					<h3 class="text-xl font-bold mb-4">Tri Karya Abadi</h3>
+					<p class="text-gray-300">
+						Spesialis spring & wire forming custom. Kami siap melayani kebutuhan industri Anda.
+					</p>
+				</div>
+				<div>
+					<h3 class="text-xl font-bold mb-4">Contact Person</h3>
+					<div v-for="person in contactPersons" :key="person.name" class="mb-3">
+						<p class="font-semibold">{{ person.name }}</p>
+						<p class="text-gray-300 text-sm">{{ person.role }}</p>
+						<a :href="`https://wa.me/${person.whatsapp}`" target="_blank"
+							class="text-green-400 hover:underline">
+							📱 {{ person.whatsapp }}
+						</a>
+					</div>
+				</div>
+				<div>
+					<h3 class="text-xl font-bold mb-4">Navigasi</h3>
+					<ul class="space-y-2 text-gray-300">
+						<li><a href="#home" class="hover:text-white">Home</a></li>
+						<li><a href="#products" class="hover:text-white">Produk</a></li>
+						<li><a href="#gallery" class="hover:text-white">Galeri</a></li>
+						<li><a href="#about" class="hover:text-white">Tentang</a></li>
+						<li><a href="#contact" class="hover:text-white">Kontak</a></li>
+					</ul>
+				</div>
+			</div>
+			<div class="text-center text-gray-400 py-4 text-sm border-t border-gray-600">
+				© {{ new Date().getFullYear() }} Tri Karya Abadi. All rights reserved.
+			</div>
+		</footer>
+		<!-- Floating WhatsApp Button -->
+		<a href="https://wa.me/6285104815151" target="_blank"
+			class="fixed bottom-6 right-6 bg-green-500 hover:bg-green-600 text-white p-4 rounded-full shadow-lg">
+			💬
+		</a>
 	</div>
 </template>
 
 <script setup>
+import { Swiper, SwiperSlide } from 'swiper/vue'
+import { Pagination, Autoplay } from 'swiper/modules'
+import 'swiper/css'
+import 'swiper/css/pagination'
+import Navbar from '~/components/navbar.vue'
+
+const route = useRoute()
+const mobileMenu = ref(false)
+
 const primaryColor = '#033272'
-const services = ['Consulting', 'Engineering', 'Project Management']
+const whatsappNumber = '6285104815151'
+
+const selectedImage = ref(null)
+function openModal(img) {
+	selectedImage.value = img
+}
+
+const slides = [
+	{
+		image: '/images/banner1.jpg',
+		title: 'Spesialis Pembuatan Spring',
+		subtitle: 'Terima segala macam spring mulai dari 0.3mm - 40mm'
+	},
+	{
+		image: '/images/banner2.jpg',
+		title: 'Produksi Modern & Presisi',
+		subtitle: 'Menggunakan mesin canggih untuk hasil terbaik'
+	},
+	{
+		image: '/images/banner3.jpg',
+		title: 'Solusi Custom untuk Industri',
+		subtitle: 'Kami siap mendukung kebutuhan unik Anda'
+	}
+]
+
+const services = [
+	{ title: 'Spring Compression', desc: 'Pegas tekan untuk mesin, otomotif, elektronik.', icon: '/icons/compression.png' },
+	{ title: 'Spring Torsion', desc: 'Pegas torsi untuk aplikasi engsel dan mekanisme putar.', icon: '/icons/torsion.png' },
+	{ title: 'Custom Wire Forming', desc: 'Bentuk kawat custom sesuai kebutuhan desain Anda.', icon: '/icons/wire.png' }
+]
+
+const gallery = [
+	'/images/mesin1.jpg',
+	'/images/mesin2.jpg',
+	'/images/produk1.jpg',
+	'/images/produk2.jpg',
+	'/images/produk3.jpg',
+	'/images/produk4.jpg'
+]
+const contactPersons = [
+	{ name: 'Budi Santoso', role: 'Sales Manager', whatsapp: '6281234567890' },
+	{ name: 'Siti Rahma', role: 'Customer Support', whatsapp: '6289876543210' },
+	{ name: 'Andi Pratama', role: 'Produksi', whatsapp: '6281122334455' }
+]
 </script>
+
+<style>
+html {
+	scroll-behavior: smooth;
+}
+
+/* Animasi */
+@keyframes fade-in {
+	from {
+		opacity: 0;
+	}
+
+	to {
+		opacity: 1;
+	}
+}
+
+@keyframes slide-up {
+	from {
+		opacity: 0;
+		transform: translateY(30px);
+	}
+
+	to {
+		opacity: 1;
+		transform: translateY(0);
+	}
+}
+
+@keyframes zoom-in {
+	from {
+		opacity: 0;
+		transform: scale(0.9);
+	}
+
+	to {
+		opacity: 1;
+		transform: scale(1);
+	}
+}
+
+.animate-fade-in {
+	animation: fade-in 1s ease forwards;
+}
+
+.animate-slide-up {
+	animation: slide-up 1s ease forwards;
+}
+
+.animate-zoom-in {
+	animation: zoom-in 0.8s ease forwards;
+}
+
+.animate-fade-in-delayed {
+	animation: fade-in 1.2s ease forwards;
+}
+</style>
