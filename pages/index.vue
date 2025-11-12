@@ -174,7 +174,7 @@ const slides = [
 
 const services = [
 	{ title: 'Spring Compression', desc: 'Pegas tekan untuk mesin, otomotif, elektronik.', icon: '/icons/compression.png' },
-	{ title: 'Spring Torsion', desc: 'Pegas torsi untuk aplikasi engsel dan mekanisme putar.', icon: '/icons/torsion.png' },
+	{ title: 'Spring Tension', desc: 'Pegas tarik.', icon: '/icons/tension.png' },
 	{ title: 'Custom Wire Forming', desc: 'Bentuk kawat custom sesuai kebutuhan desain Anda.', icon: '/icons/wire.png' }
 ]
 
