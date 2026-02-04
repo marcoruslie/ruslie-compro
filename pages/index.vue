@@ -346,7 +346,7 @@
 		"/images/gallery5.jpg",
 		"/images/item5.jpg",
 		"/images/gallery6.jpg",
-		"/images/item6.png",
+		"/images/item6.jpg",
 		"/images/item2.jpg",
 		"/images/gallery7.jpg",
 		"/images/Mesin1.jpeg",
