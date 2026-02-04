@@ -351,7 +351,7 @@
 		"/images/gallery7.jpg",
 		"/images/Mesin1.jpeg",
 	]
-	const contactPersons = [{ name: "Marco Ruslie", role: "Owner", whatsapp: "6285104815151" }]
+	const contactPersons = [{ name: "Marco Ruslie", role: "", whatsapp: "6285104815151" }]
 </script>
 
 <style>
