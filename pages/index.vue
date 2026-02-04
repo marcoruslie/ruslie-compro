@@ -57,7 +57,8 @@
 							:src="service.image"
 							class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-125" />
 
-						<div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent"></div>
+						<div
+							class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent hover:opacity-100 transition-opacity duration-300"></div>
 
 						<div class="absolute bottom-0 p-6">
 							<h3
@@ -83,15 +84,15 @@
 						:style="{ color: primaryColor }">
 						Galeri Produksi & Contoh Produk
 					</h2>
-					<div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+					<div class="columns-1 md:columns-4 gap-4 space-y-4">
 						<div
 							v-for="item in gallery"
 							:key="item"
-							class="overflow-hidden rounded-xl shadow-md hover:scale-105 transition relative group animate-zoom-in"
+							class="break-inside-avoid overflow-hidden rounded-xl shadow-md hover:scale-110 hover:z-50 transition relative group"
 							@click="openModal(item)">
 							<img
 								:src="item"
-								class="object-cover w-full h-60 group-hover:scale-110 transition" />
+								class="w-full h-auto object-contain" />
 						</div>
 					</div>
 				</div>
@@ -112,6 +113,41 @@
 					</div>
 				</div>
 			</section>
+			<section
+				id="video-showcase"
+				class="py-16 bg-gray-50">
+				<div class="max-w-6xl mx-auto px-4 text-center">
+					<h2
+						class="text-3xl font-bold mb-4 animate-slide-up"
+						:style="{ color: primaryColor }">
+						Lihat Proses Produksi Kami
+					</h2>
+					<p class="text-gray-600 mb-10 max-w-2xl mx-auto">
+						Saksikan bagaimana dedikasi dan teknologi mesin presisi kami bekerja untuk menghasilkan produk
+						pegas berkualitas tinggi.
+					</p>
+
+					<div class="relative max-w-sm mx-auto overflow-hidden rounded-2xl shadow-2xl bg-black">
+						<video
+							controls
+							class="w-full h-auto aspect-[9/16] object-cover"
+							poster="/images/Mesin1.jpeg">
+							<source
+								src="/images/Mesin1Vid.mp4"
+								type="video/mp4" />
+							Browser Anda tidak mendukung tag video.
+						</video>
+					</div>
+
+					<div
+						class="mt-8 flex justify-center gap-8 text-sm font-semibold text-gray-500 uppercase tracking-widest">
+						<span class="flex items-center gap-2">⚙️ Automasi Tinggi</span>
+						<span class="flex items-center gap-2">🔍 Quality Control</span>
+						<span class="flex items-center gap-2">🚀 Pengiriman Cepat</span>
+					</div>
+				</div>
+			</section>
+
 			<section
 				id="partners"
 				class="py-12 bg-gray-100/50 mb-16">
@@ -281,14 +317,18 @@
 	const services = [
 		{
 			title: "Spring Compression",
-			desc: "Pegas tekan untuk mesin, otomotif, dan elektronik.",
-			image: "/images/banner1.jpg",
+			desc: "Pegas tekan presisi tinggi yang dirancang khusus untuk performa maksimal pada mesin industri, sistem otomotif, dan perangkat elektronik.",
+			image: "/images/gallery4.jpg",
 		},
-		{ title: "Spring Tension", desc: "Pegas tarik.", image: "/icons/tension.png" },
+		{
+			title: "Spring Tension",
+			desc: "Pegas tarik dengan daya tahan unggul, memastikan elastisitas dan kekuatan tarikan yang konsisten untuk berbagai aplikasi mekanikal.",
+			image: "/images/gallery2.jpg",
+		},
 		{
 			title: "Custom Wire Forming",
-			desc: "Bentuk kawat custom sesuai kebutuhan desain Anda.",
-			image: "/icons/wire.png",
+			desc: "Solusi pembentukan kawat kustom dengan akurasi tinggi, disesuaikan sepenuhnya dengan spesifikasi desain dan kebutuhan teknis proyek Anda.",
+			image: "/images/gallery3.jpg",
 		},
 	]
 
@@ -296,15 +336,20 @@
 		{ name: "Maspion", logo: "/logos/maspion.png" },
 		{ name: "Polytron", logo: "/logos/polytron.jpg" },
 		{ name: "Santini", logo: "/logos/santini.jpg" },
-		{ name: "Singa Oak", logo: "/logos/singa-oak.png" },
+		// { name: "Singa Oak", logo: "/logos/singa-oak.png" },
 	]
 	const gallery = [
-		"/images/mesin1.jpg",
-		"/images/mesin2.jpg",
-		"/images/produk1.jpg",
-		"/images/produk2.jpg",
-		"/images/produk3.jpg",
-		"/images/produk4.jpg",
+		"/images/item1.jpg",
+		"/images/gallery1.jpg",
+		"/images/item3.jpg",
+		"/images/item4.jpg",
+		"/images/gallery5.jpg",
+		"/images/item5.jpg",
+		"/images/gallery6.jpg",
+		"/images/item6.png",
+		"/images/item2.jpg",
+		"/images/gallery7.jpg",
+		"/images/Mesin1.jpeg",
 	]
 	const contactPersons = [{ name: "Marco Ruslie", role: "Owner", whatsapp: "6285104815151" }]
 </script>
