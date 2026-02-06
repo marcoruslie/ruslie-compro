@@ -1,42 +1,58 @@
 <template>
 	<div class="min-h-screen bg-gray-50 flex flex-col">
-		<!-- Navbar -->
-		<Navbar />
-
+		<!-- Navbar Section -->
+		<Navbar
+			:mobileMenu="mobileMenu"
+			@toggleMenu="mobileMenu = !mobileMenu" />
 		<main class="pt-20">
-			<!-- Hero Section -->
 			<section
 				id="home"
-				class="relative w-full max-w-6xl mx-auto mb-12">
+				class="max-w-7xl mx-auto mb-10 w-full overflow-hidden">
 				<Swiper
 					:modules="[Pagination, Autoplay]"
 					:loop="true"
-					:autoplay="{ delay: 3500 }"
-					:pagination="{ clickable: true }"
-					class="rounded-2xl shadow-2xl">
+					:effect="'fade'"
+					:autoplay="{ delay: 5000, disableOnInteraction: false }"
+					:pagination="{ clickable: true, dynamicBullets: true }"
+					class="w-full shadow-2xl rounded-b-lg">
 					<SwiperSlide
 						v-for="(slide, index) in slides"
 						:key="index"
-						class="relative">
-						<img
-							:src="slide.image"
-							class="w-full h-[450px] object-cover rounded-2xl" />
-						<div
-							class="absolute inset-0 bg-black/40 flex flex-col justify-center items-center text-center text-white px-4 animate-fade-in">
-							<h2 class="text-4xl font-extrabold drop-shadow-lg animate-slide-up">
-								{{ slide.title }}
-							</h2>
-							<p class="text-lg mt-2 max-w-xl animate-fade-in-delayed">
-								{{ slide.subtitle }}
-							</p>
+						class="relative group">
+						<div class="relative w-full overflow-hidden">
+							<img
+								:src="slide.image"
+								class="w-full h-full object-cover transition-transform duration-[10000ms] group-hover:scale-110" />
+
+							<div
+								class="absolute inset-0 bg-gradient-to-r from-black/80 via-black/30 to-transparent flex items-center">
+								<div class="container mx-auto px-6 md:px-12 lg:px-20">
+									<div class="max-w-3xl">
+										<span
+											class="inline-block px-4 py-1 mb-6 text-sm font-semibold tracking-widest text-blue-400 uppercase bg-blue-400/10 border border-blue-400/20 rounded-md backdrop-blur-sm">
+											Approved Quality
+										</span>
+
+										<h2
+											class="text-6xl md:text-8xl font-black text-white leading-tight tracking-tighter drop-shadow-2xl">
+											{{ slide.title }}
+										</h2>
+
+										<p
+											class="mt-6 text-xl md:text-2xl text-gray-200 font-light leading-relaxed max-w-xl opacity-90">
+											{{ slide.subtitle }}
+										</p>
+									</div>
+								</div>
+							</div>
 						</div>
 					</SwiperSlide>
 				</Swiper>
 			</section>
 
-			<!-- Services -->
+			<!-- Products -->
 			<section
-				id="services"
+				id="products"
 				class="max-w-6xl mx-auto text-center mb-16">
 				<h2
 					class="text-3xl font-bold mb-8 animate-slide-up"
@@ -88,7 +104,7 @@
 						<div
 							v-for="item in gallery"
 							:key="item"
-							class="break-inside-avoid overflow-hidden rounded-xl shadow-md hover:scale-110 hover:z-50 transition relative group"
+							class="break-inside-avoid overflow-hidden rounded-xl shadow-md hover:scale-110 hover:z-50 transition relative group tra"
 							@click="openModal(item)">
 							<img
 								:src="item"
@@ -175,7 +191,7 @@
 			<!-- About -->
 			<section
 				id="about"
-				class="max-w-4xl mx-auto bg-white shadow-xl rounded-2xl p-8 mb-16 animate-slide-up">
+				class="max-w-5xl mx-auto bg-white shadow-xl rounded-xl p-8 mb-16 animate-slide-up">
 				<h2
 					class="text-3xl font-semibold mb-4"
 					:style="{ color: primaryColor }">
@@ -199,7 +215,9 @@
 			</section>
 		</main>
 		<!-- Footer Section -->
-		<footer class="bg-[#021d47] text-white mt-16">
+		<footer
+			class="bg-[#021d47] text-white mt-16"
+			id="contact">
 			<div class="max-w-6xl mx-auto px-6 py-12 grid grid-cols-1 md:grid-cols-3 gap-8">
 				<div>
 					<h3 class="text-xl font-bold mb-4">Ruslie Spring</h3>

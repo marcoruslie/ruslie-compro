@@ -21,9 +21,54 @@
 				<li>
 					<NuxtLink
 						to="/"
-						class="nav-link"
-						:class="{ 'text-blue-700 font-semibold border-b-2 border-blue-700 pb-1': route.path === '/' }">
+						class="nav-link hover:text-blue-700 transition"
+						:class="{
+							'text-blue-700 font-semibold border-b-2 border-blue-700 pb-1': route.fullPath === '/',
+						}">
 						Home</NuxtLink
+					>
+				</li>
+				<li>
+					<a
+						href="#products"
+						class="nav-link hover:text-blue-700 transition"
+						:class="{
+							'text-blue-700 font-semibold border-b-2 border-blue-700 pb-1':
+								route.fullPath === '/#products',
+						}"
+						>Produk</a
+					>
+				</li>
+				<li>
+					<a
+						href="#gallery"
+						class="nav-link hover:text-blue-700 transition"
+						:class="{
+							'text-blue-700 font-semibold border-b-2 border-blue-700 pb-1':
+								route.fullPath === '/#gallery',
+						}"
+						>Galeri</a
+					>
+				</li>
+				<li>
+					<a
+						href="#about"
+						class="nav-link hover:text-blue-700 transition"
+						:class="{
+							'text-blue-700 font-semibold border-b-2 border-blue-700 pb-1': route.fullPath === '/#about',
+						}"
+						>Tentang</a
+					>
+				</li>
+				<li>
+					<a
+						href="#contact"
+						class="nav-link hover:text-blue-700 transition"
+						:class="{
+							'text-blue-700 font-semibold border-b-2 border-blue-700 pb-1':
+								route.fullPath === '/#contact',
+						}"
+						>Kontak</a
 					>
 				</li>
 				<li v-if="devUnlocked">
