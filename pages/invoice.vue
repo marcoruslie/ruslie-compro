@@ -194,12 +194,14 @@
 		date: new Date().toLocaleDateString(),
 		number: "INV-",
 		customer: {
-			name: "Bengkel Berlian Oto Service (Bpk. Jimmy)",
-			address: "A. Yani KM.23,7 Jalan Kurnia",
-			city: "Landasan Ulin Utara, Banjarbaru 70724",
-			phone: "0811512252",
+			name: "PT. KOBEXINDO EQUIPMENT",
+			address: "Jl. Raya Bekasi Karawang, KM 58 Lemahabang, Cikarang",
+			city: "Bekasi, Jawa Barat",
+			phone: "085218282583",
 		},
-		items: [],
+		items: [
+			
+		],
 		shipping: 0,
 		paymentMethod: "cash", // cash | top
 		topNote: "", // misal: TOP 30 hari
